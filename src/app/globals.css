@@ -1,26 +1,224 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------------------ *
+ *  EmpireTech Global — design tokens
+ *  Navy and gold are sampled directly from the brochure artwork.
+ * ------------------------------------------------------------------ */
+
+@theme {
+  /* Brand */
+  --color-ink: #171b39; /* exact brochure navy */
+  --color-ink-deep: #0e1128; /* deeper ground for scrims + footer */
+  --color-ink-raised: #232848; /* raised surface on dark */
+  --color-ink-line: #2f3557; /* hairline on dark */
+
+  --color-gold: #b68843; /* exact logo gold */
+  --color-gold-bright: #d2a45e; /* hover / highlight */
+  --color-gold-dim: #8a6733; /* pressed / small text on light */
+
+  --color-paper: #faf7f3; /* warm page white */
+  --color-paper-pure: #ffffff; /* cards */
+  --color-rule: #e4ded4; /* hairline on light */
+  --color-muted: #5c6178; /* secondary text */
+
+  /* Type */
+  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", monospace;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ------------------------------------------------------------------ *
+ *  Base
+ * ------------------------------------------------------------------ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Reveal transforms and the hero's ken-burns scale both bleed a few px past
+     the right edge mid-animation. `clip` contains them without creating a
+     scroll container, so position: sticky keeps working. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern", "liga", "calt";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Display face wants tighter tracking and optical sizing at large sizes */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Nothing here should animate for people who don't want it */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ------------------------------------------------------------------ *
+ *  Signature motifs — the site is composed like a drawing set
+ * ------------------------------------------------------------------ */
+
+/* Letterspaced caps label, straight from the brochure's section eyebrows */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Corner registration ticks — the brochure draws these on its cards */
+@utility tick-frame {
+  position: relative;
+}
+
+@utility tick-frame-gold {
+  position: relative;
+}
+
+/* Hairline drawing border */
+@utility sheet-rule {
+  border: 1px solid var(--color-rule);
+}
+
+@utility sheet-rule-dark {
+  border: 1px solid var(--color-ink-line);
+}
+
+/* A faint setting-out grid, used behind dark sections at very low opacity */
+@utility survey-grid {
+  background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-gold) 22%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-gold) 22%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 72px 72px;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Components
+ * ------------------------------------------------------------------ */
+
+@layer components {
+  /* Corner ticks drawn with pseudo-elements so any box can become a "sheet" */
+  .tick-frame::before,
+  .tick-frame::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    border-color: var(--color-gold);
+    transition: width 0.5s var(--ease-out-soft), height 0.5s var(--ease-out-soft);
+  }
+  .tick-frame::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1.5px solid;
+    border-left: 1.5px solid;
+  }
+  .tick-frame::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1.5px solid;
+    border-right: 1.5px solid;
+  }
+  .tick-frame:hover::before,
+  .tick-frame:hover::after {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* Underline that draws itself in on hover — used on nav + inline links */
+  .rule-link {
+    position: relative;
+  }
+  .rule-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease-out-soft);
+  }
+  .rule-link:hover::after,
+  .rule-link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Slow ambient drift for hero imagery */
+  .ken-burns {
+    animation: ken-burns 24s var(--ease-out-soft) forwards;
+  }
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Thin, unobtrusive scrollbar that matches the palette */
+@supports (scrollbar-width: thin) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gold-dim) var(--color-paper);
+  }
 }
