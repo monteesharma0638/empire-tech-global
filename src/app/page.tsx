@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import HeroBackdrop from "@/components/sections/HeroBackdrop";
 import Sectors from "@/components/sections/Sectors";
 import Story from "@/components/sections/Story";
 import Capabilities from "@/components/sections/Capabilities";
@@ -13,7 +14,9 @@ export default function Home() {
   return (
     <>
       <SheetRail />
-      <Hero />
+      <Hero>
+        <HeroBackdrop />
+      </Hero>
       <Sectors />
       <Story />
       <Capabilities />

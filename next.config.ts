@@ -7,9 +7,12 @@ const r2Host =
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: r2Host, pathname: "/**" }],
-    // R2 originals are 600KB–1MB; these are the widths we actually render at.
-    deviceSizes: [420, 640, 828, 1080, 1280, 1600, 1920, 2560],
+    // The R2 sources top out at 1584px wide, so asking for anything larger just
+    // makes the optimizer re-encode at the source width under a different key.
+    deviceSizes: [420, 640, 828, 1080, 1280, 1584],
     imageSizes: [96, 160, 256, 384, 512, 768],
+    // Next 16 only honours qualities listed here; anything else falls back to 75.
+    qualities: [70, 75, 80, 82],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 365,
   },

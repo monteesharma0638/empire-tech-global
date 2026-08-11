@@ -55,7 +55,15 @@ export const metadata: Metadata = {
     title: `${site.name} — Industrial, Warehouse & Institutional Construction`,
     description:
       "We build what industries and institutions depend on — engineered right, cleared right, delivered on time.",
-    images: [{ url: img.ogImage.src, width: 1200, height: 630, alt: img.ogImage.alt }],
+    // Dimensions come from the manifest so they can't drift from the real file.
+    images: [
+      {
+        url: img.ogImage.src,
+        width: img.ogImage.w,
+        height: img.ogImage.h,
+        alt: img.ogImage.alt,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -121,6 +129,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
+      data-scroll-behavior="smooth"
       className={`${newsreader.variable} ${plexSans.variable} ${plexMono.variable}`}
     >
       <body className="min-h-screen antialiased">

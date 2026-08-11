@@ -1,15 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Phone } from "lucide-react";
 import { site, sectors } from "@/lib/site";
-import { img } from "@/lib/images";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export default function Hero() {
+export default function Hero({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion();
 
   // Orchestrated load sequence — one moment, not scattered effects.
@@ -29,41 +28,9 @@ export default function Hero() {
       data-tone="dark"
       className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-ink-deep pb-10 pt-32"
     >
-      {/* Background plate */}
-      <div className="absolute inset-0">
-        <Image
-          src={img.heroDusk.src}
-          alt={img.heroDusk.alt}
-          fill
-          priority
-          sizes="100vw"
-          quality={82}
-          className={`hidden object-cover object-center sm:block ${reduce ? "" : "ken-burns"}`}
-        />
-        <Image
-          src={img.heroMobile.src}
-          alt={img.heroMobile.alt}
-          fill
-          priority
-          sizes="100vw"
-          quality={80}
-          className={`object-cover object-center sm:hidden ${reduce ? "" : "ken-burns"}`}
-        />
-        {/* Scrims: the vertical one anchors the foot strip, the horizontal one
-            protects the headline column. Kept light so the steelwork still reads. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/30 to-ink-deep/15"
-        />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-gradient-to-r from-ink-deep/90 via-ink-deep/40 to-transparent sm:via-ink-deep/25"
-        />
-        <div
-          className="survey-grid absolute inset-0 opacity-[0.06]"
-          aria-hidden
-        />
-      </div>
+      {/* Background plate — a server-rendered <picture>, passed in from the page
+          so the browser downloads only the crop it needs. */}
+      {children}
 
       <div className="relative mx-auto w-full max-w-[110rem] px-6 sm:px-8 lg:px-12">
         <div className="max-w-4xl">

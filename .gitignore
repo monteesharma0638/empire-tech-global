@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Optimised image copies staged for upload to R2 — not part of the build.
+# Upload them to the bucket, then this folder can be deleted.
+/optimized-images

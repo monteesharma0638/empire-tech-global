@@ -89,6 +89,28 @@ Folders sit at the **bucket root** — there is no `empire-tech-global/` prefix.
 
 Generation prompts for all 31 images are in `brand/AI-IMAGE-PROMPTS.md`.
 
+### Hero art direction — don't "simplify" this
+
+The hero uses two genuinely different crops (landscape and portrait). `HeroBackdrop.tsx` is a **server component** that builds a real `<picture>` element via `getImageProps`, so the browser downloads only the crop it needs.
+
+The obvious-looking alternative — two `<Image>` tags toggled with `hidden` / `sm:hidden` — renders identically but makes every visitor download **both** files (~1.6 MB instead of ~0.8 MB), and preload both, since each carries `priority`. CSS `display:none` does not prevent the fetch. That is why the hero takes its backdrop as `children` from `page.tsx` rather than importing it directly.
+
+Any quality value passed to `next/image` must also be listed in `images.qualities` in `next.config.ts` — Next 16 silently falls back to 75 otherwise.
+
+### ⚠ The R2 sources are ~5× heavier than they need to be
+
+The uploaded originals total **23 MB across 31 images** — 600 KB to 1.1 MB each, for pictures whose largest dimension is 1584px. That is near-lossless encoding on images that render at ~700px wide.
+
+This is not cosmetic. Next's image optimizer has a hard **7-second timeout** on fetching a remote source. R2 serves these files in 4–5 seconds, so on a cold cache the optimizer intermittently gives up and returns a 500 — measured at **1 failure in 44 requests** across a full crawl of the site. It only affects the first request for each size (Vercel then caches the result for a year, per `minimumCacheTTL`), but when it does fail the visitor sees a broken image, and every transformation is billable.
+
+**Fix, already prepared:** `optimized-images/` holds re-encoded copies of all 31 files in the same folder structure — **23 MB → 3.8 MB, 84% smaller**, verified visually indistinguishable at 1:1 on the most detail-heavy image in the set.
+
+To apply: upload the contents of `optimized-images/` to the R2 bucket, overwriting the originals. Paths and filenames are unchanged, so no code needs to change. Then delete the folder locally (it is gitignored).
+
+Regenerate at any time with `npm run optimize:images` (JPEG q80 mozjpeg progressive, PNG palette-quantised). It downloads whatever is currently on R2, re-encodes it, and never writes a file that came out larger than the original.
+
+Run it again for any new photography before uploading.
+
 ### Logo
 
 Extracted from page 1 of the brochure PDF (embedded bitmap + its soft mask), then traced to SVG so it stays crisp at any size:
@@ -133,6 +155,7 @@ Without a key the endpoint returns a clear 503 and the form tells the visitor to
 
 ## Still outstanding
 
+- [ ] **Re-upload the optimised images** from `optimized-images/` to R2 (see the warning above). Highest-value item on this list — it removes the intermittent image 500s and cuts 19 MB of origin traffic.
 - [ ] **Director headshots.** `Team.tsx` and the contact page use a gold-on-navy placeholder avatar. Real photos of Ashwil Bhupesh and Devdeep Singh should replace `img.avatarPlaceholder` — a phone camera against a plain wall in soft window light is fine. These were deliberately not AI-generated: they are real people, and synthetic portraits of named individuals would mislead visitors.
 - [ ] **Resend API key**, and domain verification if enquiries should land in the Gmail inbox.
 - [ ] **Real domain** in `NEXT_PUBLIC_SITE_URL`.
