@@ -22,17 +22,19 @@ export const site = {
   email: "communications.etg@gmail.com",
   address: {
     lines: [
-      "Chamber 1, Basement, C-28",
-      "Panchsheel Colony, Ajmer Road",
-      "Jaipur 302019",
+      "C-66, Near Airport",
+      "Siddharth Nagar, Govind Vihar",
+      "Surajpura, Jaipur 302017",
     ],
+    street: "C-66, Near Airport, Siddharth Nagar, Govind Vihar, Surajpura",
     city: "Jaipur",
     region: "Rajasthan",
-    postalCode: "302019",
+    postalCode: "302017",
     country: "IN",
   },
   serviceArea: "Rajasthan and the industrial belts near NCR",
 
+  // `photo` is a key of `img` in src/lib/images.ts.
   directors: [
     {
       name: "Ashwil Bhupesh",
@@ -40,6 +42,7 @@ export const site = {
       credential: "BTech, IIT Delhi",
       phone: "+91 96721 19046",
       href: "tel:+919672119046",
+      photo: "directorAshwil",
     },
     {
       name: "Devdeep Singh",
@@ -47,6 +50,7 @@ export const site = {
       credential: "BTech, Civil Engineering",
       phone: "+91 89300 67567",
       href: "tel:+918930067567",
+      photo: "directorDevdeep",
     },
   ],
 } as const;

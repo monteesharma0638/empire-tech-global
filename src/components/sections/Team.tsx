@@ -47,7 +47,7 @@ export default function Team({ sheet = true }: { sheet?: boolean }) {
               <div className="tick-frame flex h-full items-center gap-6 border border-rule bg-paper p-7 transition-colors duration-500 hover:border-gold/45">
                 <div className="relative size-20 shrink-0 overflow-hidden rounded-full border border-rule bg-ink">
                   <Image
-                    src={img.avatarPlaceholder.src}
+                    src={img[d.photo].src}
                     alt=""
                     fill
                     sizes="80px"

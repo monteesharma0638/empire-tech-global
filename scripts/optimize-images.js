@@ -17,6 +17,7 @@ const FILES = [
   'why/why-one-team.jpg', 'why/why-compliance.jpg',
   'safety/safety-ppe.jpg', 'safety/safety-inspection.jpg', 'safety/safety-training.jpg',
   'team/team-engineers.jpg', 'team/team-site-office.jpg', 'team/avatar-placeholder.png',
+  'team/director-ashwil.jpg', 'team/director-devdeep.jpg',
   'cta/cta-lets-build.jpg', 'cta/contact-office-exterior.jpg',
   'textures/texture-navy-concrete.jpg', 'textures/texture-blueprint-grid.png',
   'meta/og-image.jpg', 'meta/404-blueprint.jpg',

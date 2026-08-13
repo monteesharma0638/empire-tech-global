@@ -180,6 +180,20 @@ export const img = {
     w: 1264,
     h: 848,
   },
+  // Real headshots, supplied by the directors. Square, with the subject inside a
+  // circle that overshoots the frame — they are only ever rendered round.
+  directorAshwil: {
+    src: r2("team/director-ashwil.jpg"),
+    alt: "Ashwil Bhupesh, Director at EmpireTech Global",
+    w: 512,
+    h: 512,
+  },
+  directorDevdeep: {
+    src: r2("team/director-devdeep.jpg"),
+    alt: "Devdeep Singh, Director at EmpireTech Global",
+    w: 512,
+    h: 512,
+  },
   avatarPlaceholder: {
     src: r2("team/avatar-placeholder.png"),
     alt: "Director portrait",

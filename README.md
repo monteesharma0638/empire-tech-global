@@ -156,7 +156,7 @@ Without a key the endpoint returns a clear 503 and the form tells the visitor to
 ## Still outstanding
 
 - [ ] **Re-upload the optimised images** from `optimized-images/` to R2 (see the warning above). Highest-value item on this list — it removes the intermittent image 500s and cuts 19 MB of origin traffic.
-- [ ] **Director headshots.** `Team.tsx` and the contact page use a gold-on-navy placeholder avatar. Real photos of Ashwil Bhupesh and Devdeep Singh should replace `img.avatarPlaceholder` — a phone camera against a plain wall in soft window light is fine. These were deliberately not AI-generated: they are real people, and synthetic portraits of named individuals would mislead visitors.
+- [ ] **Upload the two director headshots** to R2 as `team/director-ashwil.jpg` and `team/director-devdeep.jpg` — prepared in `optimized-images/team/`. `Team.tsx` and the contact page already point at them via `directors[].photo` in `site.ts`; until they are on the bucket those two avatars 404. (`img.avatarPlaceholder` stays in the manifest as the fallback for any future director without a photo.)
 - [ ] **Resend API key**, and domain verification if enquiries should land in the Gmail inbox.
 - [ ] **Real domain** in `NEXT_PUBLIC_SITE_URL`.
 - [ ] **Google Business Profile / Maps embed** on the contact page, once the listing exists.

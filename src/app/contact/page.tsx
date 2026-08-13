@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { site } from "@/lib/site";
 import { img } from "@/lib/images";
@@ -103,19 +104,30 @@ export default function ContactPage() {
 
                   <div className="mt-9 border-t border-rule pt-7">
                     <Eyebrow>Speak to a director</Eyebrow>
-                    <ul className="mt-5 space-y-4">
+                    <ul className="mt-5 space-y-5">
                       {site.directors.map((d) => (
-                        <li key={d.name}>
-                          <p className="font-display text-lg text-ink">{d.name}</p>
-                          <p className="text-sm text-muted">
-                            {d.role} · {d.credential}
-                          </p>
-                          <a
-                            href={d.href}
-                            className="rule-link mt-1 inline-block font-mono text-sm text-gold-dim"
-                          >
-                            {d.phone}
-                          </a>
+                        <li key={d.name} className="flex items-start gap-4">
+                          <div className="relative size-12 shrink-0 overflow-hidden rounded-full border border-rule bg-ink">
+                            <Image
+                              src={img[d.photo].src}
+                              alt=""
+                              fill
+                              sizes="48px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-display text-lg text-ink">{d.name}</p>
+                            <p className="text-sm text-muted">
+                              {d.role} · {d.credential}
+                            </p>
+                            <a
+                              href={d.href}
+                              className="rule-link mt-1 inline-block font-mono text-sm text-gold-dim"
+                            >
+                              {d.phone}
+                            </a>
+                          </div>
                         </li>
                       ))}
                     </ul>

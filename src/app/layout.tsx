@@ -98,7 +98,7 @@ const jsonLd = {
   telephone: site.phones.map((p) => p.label),
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Chamber 1, Basement, C-28, Panchsheel Colony, Ajmer Road",
+    streetAddress: site.address.street,
     addressLocality: site.address.city,
     addressRegion: site.address.region,
     postalCode: site.address.postalCode,
