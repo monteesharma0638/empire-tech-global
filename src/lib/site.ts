@@ -16,8 +16,8 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://empiretechglobal.com",
 
   phones: [
-    { label: "+91 96721 19046", href: "tel:+919672119046", raw: "919672119046" },
     { label: "+91 89300 67567", href: "tel:+918930067567", raw: "918930067567" },
+    { label: "+91 96721 19046", href: "tel:+919672119046", raw: "919672119046" },
   ],
   email: "communications.etg@gmail.com",
   address: {
